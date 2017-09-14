@@ -50,9 +50,25 @@ describe('UserComponent', () => {
       (c: MockConnection) => c.mockRespond(baseResponse)
     );
 
-    return service.getUsers().subscribe(data => {
+    service.getUsers().subscribe(data => {
       expect(data).toEqual("MockUsers");
     });
+
+  }))
+
+  it('should return users - component', inject([MyService, MockBackend], (service: MyService, backend: MockBackend) => {
+    let response = new ResponseOptions({
+      body: JSON.stringify("Component data")
+    });
+
+    const baseResponse = new Response(response);
+
+    backend.connections.subscribe(
+      (c: MockConnection) => c.mockRespond(baseResponse)
+    );
+
+    component.getUsers();
+    expect(component.users).toEqual("Component data");
 
   }))
 });
